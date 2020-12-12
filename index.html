@@ -7,8 +7,9 @@
     <div id="chart-area" style="width:600px;height:250px;"></div>
     <script>
         const TESTER = document.getElementById('chart-area')
+        let corsURL = 'https://cors-anywhere.herokuapp.com/'
         let harianURL = 'https://corona.jepara.go.id/data/chart_harian'
-        fetch(harianURL, {mode: 'cors'})
+        fetch(corsURL + harianURL, {mode: 'cors'})
         .then(response => response.text())
         .then(text => text.substring(text.indexOf('[{')))
         .then(rawJSON => {
