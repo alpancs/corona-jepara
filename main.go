@@ -23,7 +23,7 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		req, _ := http.NewRequest(http.MethodGet, "https://corona.jepara.go.id/data/chart_harian", nil)
 		req.Header.Set("Origin", "https://corona.jepara.go.id")
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := httpClient.Do(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
