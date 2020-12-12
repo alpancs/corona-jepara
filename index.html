@@ -7,8 +7,9 @@
 <body>
     <div id="chart-area" style="width:600px;height:250px;"></div>
     <script>
-        TESTER = document.getElementById('chart-area');
-        axios.get('https://corona.jepara.go.id/data/chart_harian')
+        const TESTER = document.getElementById('chart-area')
+        let options = {headers: {'Access-Control-Allow-Origin': '*'}}
+        axios.get('https://corona.jepara.go.id/data/chart_harian', options)
         .then(response => {
             let rawJSON = response.data.substring(response.data.indexOf('[{'))
             let data = JSON.parse(rawJSON)
