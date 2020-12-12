@@ -13,9 +13,8 @@ var httpClient = http.Client{Timeout: 5 * time.Second}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		indexHTML, _ := os.Open("index.html")
-		defer indexHTML.Close()
-		io.Copy(w, indexHTML)
+		indexHTML, _ := ioutil.ReadFile("index.html")
+		w.Write(indexHTML)
 	})
 
 	http.HandleFunc("/chart_harian", func(w http.ResponseWriter, r *http.Request) {
