@@ -16,9 +16,8 @@ func main() {
 	})
 
 	http.HandleFunc("/chart_harian", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
-		resp, err := http.Get("https://corona.jepara.go.id/data/chart_harian")
+		resp, err := http.Get("http://corona.jepara.go.id/data/chart_harian")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
