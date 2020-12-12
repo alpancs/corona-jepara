@@ -1,17 +1,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <div id="chart-area" style="width:600px;height:250px;"></div>
     <script>
         const TESTER = document.getElementById('chart-area')
-        axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
-        axios.get('https://corona.jepara.go.id/data/chart_harian')
-        .then(response => {
-            let rawJSON = response.data.substring(response.data.indexOf('[{'))
+        let harianURL = 'https://corona.jepara.go.id/data/chart_harian'
+        fetch(harianURL, {mode: 'no-cors'})
+        .then(response => response.text())
+        .then(text => text.substring(text.indexOf('[{')))
+        .then(rawJSON => {
             let data = JSON.parse(rawJSON)
             Plotly.newPlot(
                 TESTER,
