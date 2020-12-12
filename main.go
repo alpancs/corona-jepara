@@ -2,14 +2,13 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
 )
-
-var httpClient = http.Client{Timeout: 5 * time.Second}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +20,11 @@ func main() {
 	http.HandleFunc("/chart_harian", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Content-Type", "application/json")
-		resp, err := httpClient.Get("https://corona.jepara.go.id/data/chart_harian")
+		URL := "https://corona.jepara.go.id/data/chart_harian"
+		ctx := context.WithTimeout(5 * time.Second)
+		req, _ := http.NewRequestWithContext(ctx, http.MethodGet, URL, nil)
+		req.Header.Set("Origin", "https://corona.jepara.go.id")
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
