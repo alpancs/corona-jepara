@@ -7,7 +7,7 @@
     <div id="chart-area" style="width:600px;height:250px;"></div>
     <script>
         const TESTER = document.getElementById('chart-area')
-        fetch('//chart_harian')
+        fetch('/chart_harian')
         .then(response => response.json())
         .then(data => {
             Plotly.newPlot(
