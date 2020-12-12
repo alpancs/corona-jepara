@@ -7,9 +7,10 @@
     <div id="chart-area" style="width:600px;height:250px;"></div>
     <script>
         const TESTER = document.getElementById('chart-area')
-        let corsURL = 'https://cors-anywhere.herokuapp.com/'
-        let harianURL = 'https://corona.jepara.go.id/data/chart_harian'
-        fetch(corsURL + harianURL, {mode: 'cors'})
+        corsURL = 'https://api.allorigins.win/get?url='
+        harianURL = 'https://corona.jepara.go.id/data/chart_harian'
+        headers = new Headers({'Origin': 'https://corona.jepara.go.id'})
+        fetch(corsURL + encodeURIComponent(harianURL), {headers: headers})
         .then(response => response.text())
         .then(text => text.substring(text.indexOf('[{')))
         .then(rawJSON => {
