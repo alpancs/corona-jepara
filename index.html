@@ -1,16 +1,23 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <div id="chart-area" style="width:600px;height:250px;"></div>
     <script>
         TESTER = document.getElementById('chart-area');
-        Plotly.newPlot( TESTER, [{
-        x: [1, 2, 3, 4, 5],
-        y: [1, 2, 4, 8, 16] }], {
-        margin: { t: 0 } } );
+        axios.get('https://corona.jepara.go.id/data/chart_harian')
+        .then(response => {
+            let rawJSON = response.data.substring(response.data.indexOf('[{'))
+            let data = JSON.parse(rawJSON)
+            Plotly.newPlot(
+                TESTER,
+                [{x: data.map(row => row.tanggal), y: data.map(row => row.covid_sum)}],
+                {margin: {t: 0}},
+            )
+        })
     </script>
 </body>
 </html>
