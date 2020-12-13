@@ -1,8 +1,7 @@
 package main
 
 import (
-	"bytes"
-	"io"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -18,23 +17,11 @@ func main() {
 	})
 
 	http.HandleFunc("/chart_harian", func(w http.ResponseWriter, r *http.Request) {
-		req, _ := http.NewRequest(http.MethodGet, "https://cors-anywhere.herokuapp.com/https://corona.jepara.go.id/data/chart_harian", nil)
-		req.Header.Set("Origin", "https://corona.jepara.go.id")
-		resp, err := httpClient.Do(req)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(getRawJSON(resp.Body))
+		http.Redirect(w, r, "https://corona.jepara.go.id/data/chart_harian", http.StatusFound)
 	})
 
-	http.ListenAndServe(":"+os.Getenv("PORT"), nil)
-}
-
-func getRawJSON(body io.ReadCloser) []byte {
-	defer body.Close()
-	bodyBytes, _ := ioutil.ReadAll(body)
-	return bodyBytes[bytes.Index(bodyBytes, []byte("[{")):]
+	addr := ":" + os.Getenv("PORT")
+	fmt.Printf("listening \"%s\"\n", addr)
+	http.ListenAndServe(addr, nil)
 }

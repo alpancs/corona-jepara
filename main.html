@@ -6,12 +6,14 @@
 <body>
     <div id="chart-area" style="width:800px;height:400px;"></div>
     <script>
-        const TESTER = document.getElementById('chart-area')
+        const CHART_AREA = document.getElementById('chart-area')
         fetch('/chart_harian')
-        .then(response => response.json())
+        .then(response => response.text())
+        .then(text => text.substring(text.indexOf('[{')))
+        .then(JSON.parse)
         .then(data => {
             Plotly.newPlot(
-                TESTER,
+                CHART_AREA,
                 [{x: data.map(row => row.tanggal), y: data.map(row => row.covid_sum)}],
                 {margin: {t: 0}},
             )
