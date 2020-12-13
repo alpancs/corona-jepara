@@ -22,6 +22,7 @@ func main() {
 		resp, err := httpClient.Get("https://corona.jepara.go.id/data/chart_harian")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 		defer resp.Body.Close()
 		io.Copy(w, resp.Body)
