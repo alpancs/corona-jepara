@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -18,7 +19,12 @@ func main() {
 
 	http.HandleFunc("/chart_harian", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		http.Redirect(w, r, "https://corona.jepara.go.id/data/chart_harian", http.StatusFound)
+		resp, err := httpClient.Get("https://corona.jepara.go.id/data/chart_harian")
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		defer resp.Body.Close()
+		io.Copy(w, resp.Body)
 	})
 
 	addr := ":" + os.Getenv("PORT")
