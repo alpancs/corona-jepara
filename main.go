@@ -3,18 +3,18 @@ package main
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
 )
 
-var httpClient = http.Client{Timeout: 5 * time.Second}
+var httpClient = http.Client{Timeout: 15 * time.Second}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		mainHTML, _ := ioutil.ReadFile("main.html")
-		w.Write(mainHTML)
+		mainHTMLFile, _ := os.Open("main.html")
+		defer mainHTMLFile.Close()
+		io.Copy(w, mainHTMLFile)
 	})
 
 	http.HandleFunc("/chart_harian", func(w http.ResponseWriter, r *http.Request) {
