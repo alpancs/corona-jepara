@@ -4,7 +4,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-    <div id="chart-area" style="width:800px;height:400px;"></div>
+    <div id="chart-area"></div>
     <script>
         const CHART_AREA = document.getElementById('chart-area')
         fetch('/chart_harian')
@@ -16,7 +16,6 @@
             Plotly.newPlot(
                 CHART_AREA,
                 [{x: data.map(row => row.tanggal), y: data.map(row => row.covid_sum)}],
-                {margin: {t: 20}},
             )
         })
     </script>
