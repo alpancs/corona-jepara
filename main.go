@@ -8,7 +8,10 @@ import (
 	"time"
 )
 
-var httpClient = http.Client{Timeout: 15 * time.Second}
+var httpClient = http.Client{
+	Timeout:   15 * time.Second,
+	Transport: &http.Transport{Proxy: http.ProxyFromEnvironment},
+}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -19,7 +22,7 @@ func main() {
 
 	http.HandleFunc("/chart_harian", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		resp, err := httpClient.Get("http://corona.jepara.go.id/data/chart_harian")
+		resp, err := httpClient.Get("https://corona.jepara.go.id/data/chart_harian")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
