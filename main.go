@@ -36,5 +36,7 @@ func main() {
 		addr = ":80"
 	}
 	fmt.Printf("listening \"%s\"\n", addr)
-	http.ListenAndServe(addr, nil)
+	if err := http.ListenAndServe(addr, nil); err != nil {
+		panic(err)
+	}
 }
