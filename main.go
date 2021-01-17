@@ -29,6 +29,9 @@ func main() {
 	})
 
 	addr := ":" + os.Getenv("PORT")
+	if addr == ":" {
+		addr = ":80"
+	}
 	fmt.Printf("listening \"%s\"\n", addr)
 	http.ListenAndServe(addr, nil)
 }
