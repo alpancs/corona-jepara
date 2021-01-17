@@ -11,6 +11,7 @@
         .then(response => response.text())
         .then(text => text.substring(text.indexOf('[{')))
         .then(JSON.parse)
+        .then(data => data.filter(row => row.covid_sum))
         .then(data => {
             Plotly.newPlot(
                 CHART_AREA,
