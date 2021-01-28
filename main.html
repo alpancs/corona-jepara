@@ -4,22 +4,25 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
+    <div id="info-area"></div>
     <div id="chart-area"></div>
     <script>
+        const INFO_AREA = document.getElementById('info-area')
         const CHART_AREA = document.getElementById('chart-area')
-        CHART_AREA.innerText = "fetching the data ..."
+        INFO_AREA.innerText = "fetching the data ..."
         fetch('/chart_harian')
         .then(response => response.text())
         .then(text => text.substring(text.indexOf('[{')))
         .then(JSON.parse)
         .then(data => data.filter(row => row.covid_sum))
         .then(data => {
+            INFO_AREA.remove()
             Plotly.newPlot(
                 CHART_AREA,
                 [{x: data.map(row => row.tanggal), y: data.map(row => row.covid_sum)}],
             )
         })
-        .catch(err => {CHART_AREA.innerText = `failed to fetch the data 😕 due to ${err}`})
+        .catch(err => {INFO_AREA.innerText = `failed to fetch the data 😕 due to ${err}`})
     </script>
 </body>
 </html>
