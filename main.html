@@ -7,6 +7,7 @@
     <div id="chart-area"></div>
     <script>
         const CHART_AREA = document.getElementById('chart-area')
+        CHART_AREA.innerText = "fetching the data ..."
         fetch('/chart_harian')
         .then(response => response.text())
         .then(text => text.substring(text.indexOf('[{')))
@@ -18,6 +19,7 @@
                 [{x: data.map(row => row.tanggal), y: data.map(row => row.covid_sum)}],
             )
         })
+        .catch(err => {CHART_AREA.innerText = `failed to fetch the data 😕 due to ${err}`})
     </script>
 </body>
 </html>
